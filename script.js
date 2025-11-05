@@ -67,3 +67,46 @@ if (video) {
     videoObserver.observe(video);
 }
 
+// Scroll-based text gradient animation synchronized with scroll gesture
+let lastScrollTop = 0;
+let scrollVelocity = 0;
+let ticking = false;
+
+function updateGradients() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrollPercentage = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
+    
+    // Calculate scroll velocity for more dynamic effects
+    scrollVelocity = scrollTop - lastScrollTop;
+    lastScrollTop = scrollTop;
+    
+    // Update text gradients - each element animates based on its position in viewport
+    const textGradients = document.querySelectorAll('.gradient-text');
+    textGradients.forEach(element => {
+        const rect = element.getBoundingClientRect();
+        const elementCenter = rect.top + rect.height / 2;
+        const viewportCenter = window.innerHeight / 2;
+        const distanceFromCenter = (elementCenter - viewportCenter) / window.innerHeight;
+        
+        // Position based on both scroll percentage and element position in viewport
+        const textPositionX = ((scrollPercentage * 300) - (distanceFromCenter * 100)) % 300;
+        const textPositionY = 50 + (Math.abs(distanceFromCenter) * 50);
+        
+        element.style.backgroundPosition = `${textPositionX}% ${textPositionY}%`;
+    });
+    
+    ticking = false;
+}
+
+// Use passive event listener for better scroll performance
+window.addEventListener('scroll', function() {
+    if (!ticking) {
+        window.requestAnimationFrame(updateGradients);
+        ticking = true;
+    }
+}, { passive: true });
+
+// Initialize gradients on load
+window.addEventListener('load', updateGradients);
+
