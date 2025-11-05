@@ -1,3 +1,14 @@
+// Force video autoplay on iOS
+document.addEventListener('DOMContentLoaded', function() {
+    const video = document.getElementById('heroVideo');
+    if (video) {
+        video.muted = true;
+        video.play().catch(function(error) {
+            console.log('Autoplay prevented:', error);
+        });
+    }
+});
+
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]:not(#showMoreFeatures)').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -41,7 +52,10 @@ const videoObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         const video = entry.target;
         if (entry.isIntersecting) {
-            video.play();
+            video.muted = true;
+            video.play().catch(function(error) {
+                console.log('Video play prevented:', error);
+            });
         } else {
             video.pause();
         }
