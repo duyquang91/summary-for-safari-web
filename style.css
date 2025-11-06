@@ -613,6 +613,27 @@ footer {
     font-size: 1.5rem;
 }
 
+/* Terms & Conditions Styles */
+.terms-content {
+    padding: 1rem 0;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.terms-content h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    text-align: left;
+}
+
+.terms-content p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+    text-align: left;
+}
+
 /* Footer */
 footer {
     padding: 8px 0;
